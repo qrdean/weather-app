@@ -100,7 +100,7 @@ Has the following pathParams:
 	units string
 
 Example URL:
-	localhost:8080/api/v1/latitude/33.441792/longitude/-94.037689/units/metric
+	localhost:8080/weatherapi/v1/latitude/33.441792/longitude/-94.037689/units/metric
 */
 func getWeather(w http.ResponseWriter, r *http.Request) {
 	pathParams := mux.Vars(r)
