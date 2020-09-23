@@ -116,29 +116,24 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 
 	// check path params for expected values and formats
 	if val, ok := pathParams["lat"]; ok {
-		fmt.Println(val)
 		lat, err = strconv.ParseFloat(val, 64)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(`{"message": "accepts a float/int for latitude"}`))
 			return
 		}
-		fmt.Println(lat)
 	}
 
 	if val, ok := pathParams["lon"]; ok {
-		fmt.Println(val)
 		lon, err = strconv.ParseFloat(val, 64)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(`{"message": "accepts a float/int for longitude"}`))
 			return
 		}
-		fmt.Println(lon)
 	}
 
 	if val, ok := pathParams["units"]; ok {
-		fmt.Println(val)
 		if val != "metric" && val != "imperial" && val != "standard" {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(`{"message": "accepts 'units' as 'metric', 'imperial' or 'standard'"}`))
@@ -153,13 +148,10 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 			unitAbbr = "K"
 		}
 		units = val
-		fmt.Println(units)
-		fmt.Println(unitAbbr)
 	}
 
 	requestURL := fmt.Sprintf(`https://api.openweathermap.org/data/2.5/onecall?lat=%f&lon=%f&units=%s&exclude=%s&appid=%s`, lat, lon, units, exclude, apiKey)
 
-	fmt.Println(requestURL)
 	// Make a call to openweathermap and map it to our structure WeatherAPIResponse
 	response, err := http.Get(requestURL)
 	if err != nil {
@@ -208,7 +200,6 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	res := fmt.Sprintf(`{"forecast": %s}`, jsonBytes)
-	fmt.Println(res)
 	w.Write([]byte(res))
 }
 
@@ -237,12 +228,9 @@ func CORS(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Methods", "*")
 
 		if r.Method == "OPTIONS" {
-			fmt.Println("options")
 			w.WriteHeader(http.StatusOK)
 			return
 		}
-
-		fmt.Println("ok")
 
 		// next
 		next.ServeHTTP(w, r)
