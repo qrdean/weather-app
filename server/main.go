@@ -100,12 +100,13 @@ Has the following pathParams:
 	units string
 
 Example URL:
-	localhost:8080/api/v1/latitude/33.441792/longitude/-94.037689/units/standard
+	localhost:8080/api/v1/latitude/33.441792/longitude/-94.037689/units/metric
 */
 func getWeather(w http.ResponseWriter, r *http.Request) {
 	pathParams := mux.Vars(r)
 	w.Header().Set("Content-Type", "application/json")
 
+	// For production apiKey would move into an environment file
 	apiKey := "2fa6857ac0dea1e59286b2426654ca4c"
 	exclude := "current,minutely,hourly,alerts"
 	var lat float64
